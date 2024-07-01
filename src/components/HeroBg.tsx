@@ -12,7 +12,7 @@ export default function HeroBg({ children }: { children: ReactNode }) {
             {Array.from({ length: 77 }).map((_, index) => (
               <div
                 key={index}
-                className={`border-dark-2 h-20 w-20 border-[1px] ${highlighted.includes(index) ? "bg-white opacity-10" : ""}`}
+                className={`h-20 w-20 border-[1px] border-dark-2 ${highlighted.includes(index) ? "bg-white opacity-10" : ""}`}
               ></div>
             ))}
           </div>

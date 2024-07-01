@@ -10,7 +10,7 @@ export default function Navbar() {
         <p>Blog</p>
         <p>Event</p>
         <p>Pricing</p>
-        <Button className="bg-brand-1 rounded-full hover:bg-blue-500">
+        <Button className="rounded-full bg-brand-1 hover:bg-blue-500">
           Sign Up
         </Button>
       </div>
