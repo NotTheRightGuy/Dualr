@@ -1,7 +1,7 @@
 import { useCodeRunning } from "@/store/hooks/useCodingRunning";
 import { useCode } from "@/store/hooks/useCode";
 import { useLanguage } from "@/store/hooks/setLanguage";
-import makeSubmission from "../../actions/makeSubmission";
+import makeSubmission from "@/actions/makeSubmission";
 import { toast } from "sonner";
 import languageDict from "@/utils/data/language.json";
 import { Timer } from "@/utils/components/Timer";
