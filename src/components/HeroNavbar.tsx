@@ -1,6 +1,6 @@
 import { Button } from "./ui/button";
 
-export default function Navbar() {
+export default function HeroNavbar() {
   return (
     <div className="flex justify-between py-4">
       <p className="text-headline-5 font-semibold">Dualr</p>

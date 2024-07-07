@@ -7,6 +7,6 @@ import { atom } from "recoil";
  */
 
 export const codeRunningAtom = atom<boolean>({
-  key: "code",
+  key: "running",
   default: false,
 });
