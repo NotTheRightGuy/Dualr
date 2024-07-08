@@ -23,7 +23,7 @@ export default function Example({
         </div>
         <div>
           <p className="mt-2 flex gap-4">Explanation </p>
-          <p className="text-sm">{explaination}</p>
+          <p className="text-sm font-semibold">{explaination}</p>
         </div>
       </div>
     </div>

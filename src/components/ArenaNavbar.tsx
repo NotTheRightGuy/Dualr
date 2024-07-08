@@ -13,6 +13,8 @@ import {
   CircleChevronUp,
   CircleChevronDown,
 } from "lucide-react";
+import { useQuestion } from "@/store/hooks/useQuestion";
+import generateAssertionCode from "@/utils/generateAssertionCode";
 
 export default function ArenaNavBar({
   player1,
@@ -23,17 +25,30 @@ export default function ArenaNavBar({
 }) {
   const [code, _] = useCode();
   const [language, __] = useLanguage();
+  const [question, ___] = useQuestion();
   const [running, setRunning] = useCodeRunning();
+
   async function handleSubmit(choice: "test" | "submit") {
     if (running) {
       toast.error("Please wait for the current submission to finish");
-    } else {
-      await makeSubmission(
-        1, //! Replace with user_id
-        languageDict[language as keyof typeof languageDict] as number,
-        code
+      return;
+    }
+    if (choice === "test") {
+      const allSubmission: any = [];
+      question.testcases.forEach((testCase: any) => {
+        const assertion = generateAssertionCode(
+          question.function_signature,
+          testCase,
+          language
+        );
+        allSubmission.push(code + "\n\n" + assertion);
+      });
+      const res = await makeSubmission(
+        1,
+        languageDict[language as keyof typeof languageDict],
+        allSubmission
       );
-      console.log(`Sent submission to server`);
+      console.log(res);
     }
   }
 

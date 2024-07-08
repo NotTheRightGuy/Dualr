@@ -3,9 +3,9 @@
 export default async function makeSubmission(
   user_id: number,
   language_id: number,
-  source_code: string
+  submissions: string[]
 ) {
-  const response = await fetch("http://localhost:8080/judge/submission", {
+  const response = await fetch("http://localhost:8080/judge/submission/batch", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -13,7 +13,7 @@ export default async function makeSubmission(
     body: JSON.stringify({
       user_id,
       language_id,
-      source_code,
+      submissions,
     }),
   });
 

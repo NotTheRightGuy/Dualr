@@ -9,7 +9,6 @@ import ArenaEditor from "@/components/ArenaEditor";
 import { useQuestion } from "@/store/hooks/useQuestion";
 
 export default function Arena() {
-  const [codeOutput, setcodeOutput] = React.useState<string>("");
   const [socket, setSocket] = React.useState<Socket | null>(null);
   const [_, setRunning] = useCodeRunning();
   const [question, setQuestion] = useQuestion();
@@ -23,9 +22,7 @@ export default function Arena() {
     });
 
     socket.on("submission", (data: any) => {
-      console.log("Submission received: ", data);
       setRunning(false);
-      setcodeOutput(data);
     });
 
     socket.on("connect_error", (err) => {
@@ -60,7 +57,7 @@ export default function Arena() {
       <ArenaNavBar player1="NotTheRightGuy" player2="Meow189" />
       <div className="flex gap-2">
         <ArenaQuestion />
-        <ArenaEditor output={codeOutput} />
+        <ArenaEditor socket={socket as Socket} />
       </div>
     </main>
   );
