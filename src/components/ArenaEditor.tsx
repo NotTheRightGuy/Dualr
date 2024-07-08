@@ -1,9 +1,8 @@
 import React from "react";
-import { Socket } from "socket.io-client";
 import { useCode } from "@/store/hooks/useCode";
 import { useLanguage } from "@/store/hooks/setLanguage";
 import { useCodeRunning } from "@/store/hooks/useCodingRunning";
-import { ListRestart } from "lucide-react";
+import { Divide, ListRestart } from "lucide-react";
 
 import {
   Tooltip,
@@ -28,27 +27,10 @@ import "ace-builds/src-noconflict/mode-java";
 import "ace-builds/src-noconflict/ext-language_tools";
 import "ace-builds/src-noconflict/theme-gruvbox";
 
-export default function ArenaEditor({
-  socket,
-  stdout,
-}: {
-  socket: Socket;
-  stdout: string;
-}) {
+export default function ArenaEditor({ output }: { output: any }) {
   const [language, setLanguage] = useLanguage();
   const [code, setCode] = useCode();
   const [running, _] = useCodeRunning();
-
-  React.useEffect(() => {
-    if (socket) {
-      socket.on("code", (data: string) => {
-        console.log("Code received: ", data);
-      });
-      return () => {
-        socket.close();
-      };
-    }
-  }, [socket]);
 
   return (
     <main className="flex-1">
@@ -87,6 +69,7 @@ export default function ArenaEditor({
       </div>
       <AceEditor
         width="full"
+        height="60%"
         theme="gruvbox"
         mode={language === "c++" ? "c_cpp" : language}
         onChange={(newCode) => setCode(newCode)}
@@ -102,13 +85,40 @@ export default function ArenaEditor({
         }}
       />
 
-      {!running ? (
-        <div className="h-[20vh] rounded-b-md border-[1px] border-light-4 bg-dark-2 p-4">
-          <code>{stdout}</code>
-        </div>
+      {/* {!running ? (
+        output.stderr ? (
+          <div className="h-[20vh] overflow-y-scroll rounded-b-md border-[1px] border-light-4 bg-accent-red p-4">
+            <code>{output.stderr}</code>
+          </div>
+        ) : (
+          <div className="h-[20vh] rounded-b-md border-[1px] border-light-4 bg-dark-2 p-4">
+            <code className="text-white">{output.stdout}</code>
+          </div>
+        )
       ) : (
         <div className="h-[20vh] animate-pulse rounded-b-md border-[1px] border-light-4 bg-dark-2 p-4"></div>
-      )}
+      )} */}
+
+      <div className="flex h-[30vh] flex-col rounded-b-md border-[1px] border-light-4 bg-dark-2">
+        <div className="flex border-b-[1px] border-light-4 *:cursor-pointer *:border-x-[1px] *:border-light-4 *:p-2 *:transition-colors hover:*:bg-dark-1">
+          <div>Test Cases</div>
+          <div>Test Result</div>
+        </div>
+        <div className="flex flex-1">
+          <div className="border-[1px] border-light-4 *:border-b-[1px] *:border-light-4 *:p-2 *:transition-colors hover:*:cursor-pointer hover:*:bg-dark-1">
+            <p>Case 1</p>
+            <p>Case 2</p>
+            <p>Case 3</p>
+            <p className="invisible">Test Cases</p>
+          </div>
+          <div className="flex flex-1 flex-col gap-2 p-4">
+            <p className="rounded-md bg-dark-1 p-2 font-mono">num = 10</p>
+            <p className="rounded-md bg-dark-1 p-2 font-mono">
+              arr = [1,2,3,4]
+            </p>
+          </div>
+        </div>
+      </div>
     </main>
   );
 }

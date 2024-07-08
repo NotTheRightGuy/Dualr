@@ -1,11 +1,11 @@
-import Navbar from "@/components/Navbar";
+import HeroNavbar from "@/components/HeroNavbar";
 import HeroBg from "@/components/HeroBg";
 import { Button } from "@/components/ui/button";
 
 export default function Page() {
   return (
     <div className="px-28">
-      <Navbar />
+      <HeroNavbar />
       <HeroBg>
         <section className="absolute">
           <div className="text-center">

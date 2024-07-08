@@ -2,10 +2,12 @@ export default function Example({
   example_number,
   input,
   output,
+  explaination,
 }: {
   example_number: number;
   input: string;
   output: string;
+  explaination: string;
 }) {
   return (
     <div className="mb-4">
@@ -18,6 +20,10 @@ export default function Example({
         <div>
           <p className="mt-2 flex gap-4">Output </p>
           <code className="rounded-md bg-dark-1 px-1 py-1">{output}</code>
+        </div>
+        <div>
+          <p className="mt-2 flex gap-4">Explanation </p>
+          <p className="text-sm">{explaination}</p>
         </div>
       </div>
     </div>
