@@ -1,4 +1,5 @@
 import { Button } from "./ui/button";
+import Link from "next/link";
 
 export default function HeroNavbar() {
   return (
@@ -10,9 +11,11 @@ export default function HeroNavbar() {
         <p>Blog</p>
         <p>Event</p>
         <p>Pricing</p>
-        <Button className="rounded-full bg-brand-1 hover:bg-blue-500">
-          Sign Up
-        </Button>
+        <Link href="/auth/signup">
+          <Button className="rounded-full bg-brand-1 hover:bg-blue-500">
+            Sign Up
+          </Button>
+        </Link>
       </div>
     </div>
   );

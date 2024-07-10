@@ -1,11 +1,46 @@
+"use client";
+
 import Link from "next/link";
 import React from "react";
 import {
   IconBrandGoogleFilled,
   IconBrandGithubFilled,
 } from "@tabler/icons-react";
+import { signIn } from "next-auth/react";
+
+import { toast } from "sonner";
 
 export default function SignUp() {
+  const emailRef = React.useRef<HTMLInputElement>(null);
+  const passwordRef = React.useRef<HTMLInputElement>(null);
+
+  async function handleLogin() {
+    const email = emailRef.current?.value;
+    const password = passwordRef.current?.value;
+
+    if (email && password) {
+      const res = await fetch("http://localhost:8080/api/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      }).then((res) => res.json());
+
+      if (res.error) {
+        toast.error("Invalid credentials");
+      } else {
+        toast.success("Logged in successfully");
+        signIn("credentials", {
+          email,
+          callbackUrl: "/dashboard",
+        });
+      }
+    } else {
+      toast.error("Please fill all the fields");
+    }
+  }
+
   return (
     <>
       <div className="py-20 text-zinc-200 selection:bg-zinc-600">
@@ -58,6 +93,7 @@ export default function SignUp() {
               <input
                 id="email-input"
                 type="email"
+                ref={emailRef}
                 placeholder="your.email@provider.com"
                 className="w-full rounded-md border border-zinc-700 bg-zinc-900 px-3 py-2 placeholder-zinc-500 ring-1 ring-transparent transition-shadow focus:outline-0 focus:ring-blue-700"
               />
@@ -67,11 +103,9 @@ export default function SignUp() {
                 <label htmlFor="password-input" className="block text-zinc-400">
                   Password
                 </label>
-                <a href="#" className="text-sm text-blue-400">
-                  Forgot?
-                </a>
               </div>
               <input
+                ref={passwordRef}
                 id="password-input"
                 type="password"
                 placeholder="••••••••••••"
@@ -80,7 +114,8 @@ export default function SignUp() {
             </div>
             <button
               className="w-full rounded-md bg-gradient-to-br from-blue-400 to-blue-700 px-4 py-2 text-lg text-zinc-50 ring-2 ring-blue-500/50 ring-offset-2 ring-offset-zinc-950 transition-all hover:scale-[1.02] hover:ring-transparent active:scale-[0.98] active:ring-blue-500/70"
-              type="submit"
+              type="button"
+              onClick={handleLogin}
             >
               Sign in
             </button>

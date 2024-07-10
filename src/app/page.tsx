@@ -1,6 +1,7 @@
 import HeroNavbar from "@/components/HeroNavbar";
 import HeroBg from "@/components/HeroBg";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 export default function Page() {
   return (
@@ -23,12 +24,16 @@ export default function Page() {
             <br />
           </p>
           <div className="mt-8 flex justify-center gap-4">
-            <Button className="rounded-full bg-brand-1 transition-colors hover:bg-blue-500">
-              Get Started
-            </Button>
-            <Button className="rounded-full border-2 transition-opacity hover:opacity-75">
-              Login
-            </Button>
+            <Link href="/auth/signup">
+              <Button className="rounded-full bg-brand-1 transition-colors hover:bg-blue-500">
+                Get Started
+              </Button>
+            </Link>
+            <Link href="/auth/signin">
+              <Button className="rounded-full border-2 transition-opacity hover:opacity-75">
+                Login
+              </Button>
+            </Link>
           </div>
         </section>{" "}
       </HeroBg>
