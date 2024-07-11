@@ -1,0 +1,38 @@
+"use client";
+
+import React from "react";
+import { useUser } from "@/store/hooks/useUser";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
+
+export default function layout({ children }: { children: React.ReactNode }) {
+  const session = useSession();
+  const { data, status } = session;
+  const [user, setUser] = useUser();
+  const router = useRouter();
+
+  React.useEffect(() => {
+    if (status === "authenticated") {
+      if (!Object.keys(user).length) {
+        console.log("User Data not found");
+        console.log("Fethching User Data");
+        fetch(`http://localhost:8080/api/me?email=${data.user?.email}`)
+          .then((res) => res.json())
+          .then((data) => {
+            setUser(data);
+            if (data.message === "Already in Dual") {
+              toast.info("Redirecting you to ongoing dual");
+              router.push("/dashboard/arena?reconnect=true");
+            }
+          })
+          .catch((err) => {
+            console.error("There was an issue fetching user data");
+            console.log(err);
+          });
+      }
+    }
+  }, []);
+
+  return <div className="flex min-h-screen flex-col">{children}</div>;
+}

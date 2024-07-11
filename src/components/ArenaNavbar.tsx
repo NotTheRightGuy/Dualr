@@ -15,15 +15,24 @@ import {
 } from "lucide-react";
 import { useQuestion } from "@/store/hooks/useQuestion";
 import generateAssertionCode from "@/utils/generateAssertionCode";
+import { useUser } from "@/store/hooks/useUser";
+import { Socket } from "socket.io-client";
 
 export default function ArenaNavBar({
   player1,
   player2,
+  player1Rating,
+  player2Rating,
+  socket,
 }: {
   player1: string;
   player2: string;
+  player1Rating: number;
+  player2Rating: number;
+  socket: Socket | null;
 }) {
   const [code, _] = useCode();
+  const [user, setUser] = useUser();
   const [language, __] = useLanguage();
   const [question, ___] = useQuestion();
   const [running, setRunning] = useCodeRunning();
@@ -44,7 +53,7 @@ export default function ArenaNavBar({
         allSubmission.push(code + "\n\n" + assertion);
       });
       const res = await makeSubmission(
-        1,
+        user.id,
         languageDict[language as keyof typeof languageDict],
         allSubmission
       );
@@ -57,9 +66,13 @@ export default function ArenaNavBar({
       <section className="flex items-center gap-8">
         <div className="text-headline-5 font-bold">Dualr</div>
         <div className="flex items-center gap-2 rounded-lg bg-dark-2 p-2">
-          <div className="text-sm font-semibold">{player1}</div>
+          <div className="flex text-sm font-semibold">
+            {player1} | {player1Rating}
+          </div>
           <p className="font-bold opacity-45">vs</p>
-          <div className="text-sm font-semibold">{player2}</div>
+          <div className="flex text-sm font-semibold">
+            {player2} | {player2Rating}
+          </div>
         </div>
       </section>
       <section className="flex items-center">
@@ -94,7 +107,17 @@ export default function ArenaNavBar({
           <CircleChevronDown className="ml-4 text-caption-2 text-accent-red" />
           <p className="ml-1 font-semibold opacity-70">-35</p>
         </div>
-        <Button variant="destructive">End Dual</Button>
+        <Button
+          variant="destructive"
+          onClick={() => {
+            if (socket) {
+              console.log("Request to terminate dual received");
+              socket.emit("end-dual", user.id);
+            }
+          }}
+        >
+          End Dual
+        </Button>
       </section>
     </nav>
   );

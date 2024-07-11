@@ -27,7 +27,7 @@ import { useQuestion } from "@/store/hooks/useQuestion";
 import generateFunctionDefinition from "@/utils/generateFunctionDefination";
 import { Socket } from "socket.io-client";
 
-export default function ArenaEditor({ socket }: { socket: Socket }) {
+export default function ArenaEditor({ socket }: { socket: Socket | null }) {
   const [language, setLanguage] = useLanguage();
   const [code, setCode] = useCode();
   const [_, setRunning] = useCodeRunning();
@@ -110,7 +110,7 @@ export default function ArenaEditor({ socket }: { socket: Socket }) {
         onChange={(newCode) => setCode(newCode)}
         value={code ? code : functionPlaceholder}
         placeholder={functionPlaceholder}
-        className="rounded-none border-[1px] border-b-0 border-light-4 bg-dark-2"
+        className="font-space rounded-none border-[1px] border-b-0 border-light-4 bg-dark-2"
         fontSize={14}
         setOptions={{
           enableBasicAutocompletion: true,

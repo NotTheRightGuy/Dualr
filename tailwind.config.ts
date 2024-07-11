@@ -10,6 +10,11 @@ module.exports = {
       },
     },
     extend: {
+      fontFamily: {
+        satoshi: ["Satoshi-Variable", "sans-serif"],
+
+        space: ["Space Mono", "monospace"],
+      },
       fontSize: {
         "headline-1": "64px",
         "headline-2": "48px",

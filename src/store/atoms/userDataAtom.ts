@@ -1,4 +1,4 @@
-import { atom, SetterOrUpdater } from "recoil";
+import { atom } from "recoil";
 
 export const userDataAtom = atom<any>({
   key: "userData",
