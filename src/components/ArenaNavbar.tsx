@@ -19,6 +19,7 @@ import { useUser } from "@/store/hooks/useUser";
 import { Socket } from "socket.io-client";
 import Modal from "./ui/Modal";
 import SubmitButton from "./ui/SubmitButton";
+import { Delta } from "@/app/dashboard/arena/page";
 
 export default function ArenaNavBar({
   player1,
@@ -27,6 +28,7 @@ export default function ArenaNavBar({
   player2Rating,
   socket,
   startTime,
+  delta,
 }: {
   player1: string;
   player2: string;
@@ -34,6 +36,7 @@ export default function ArenaNavBar({
   player2Rating: number;
   startTime: number;
   socket: Socket | null;
+  delta: Delta;
 }) {
   const [code, _] = useCode();
   const [user, setUser] = useUser();
@@ -104,9 +107,9 @@ export default function ArenaNavBar({
       <section className="flex items-center gap-8">
         <div className="flex">
           <CircleChevronUp className="text-caption-2 text-accent-green" />
-          <p className="ml-1 font-semibold opacity-70">+35</p>
+          <p className="ml-1 font-semibold opacity-70">+{delta.player1Delta}</p>
           <CircleChevronDown className="ml-4 text-caption-2 text-accent-red" />
-          <p className="ml-1 font-semibold opacity-70">-35</p>
+          <p className="ml-1 font-semibold opacity-70">-{delta.player2Delta}</p>
         </div>
 
         <Modal socket={socket}></Modal>

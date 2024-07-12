@@ -109,7 +109,7 @@ export default function ArenaEditor({ socket }: { socket: Socket | null }) {
         onChange={(newCode) => setCode(newCode)}
         value={code ? code : functionPlaceholder}
         placeholder={functionPlaceholder}
-        className="rounded-none border-[1px] border-b-0 border-light-4 bg-dark-2 font-space"
+        className="rounded-none border-[1px] border-b-0 border-light-4 bg-dark-2 font-space font-semibold"
         fontSize={14}
         setOptions={{
           enableBasicAutocompletion: true,
@@ -165,27 +165,23 @@ export default function ArenaEditor({ socket }: { socket: Socket | null }) {
           {showLogs ? (
             <div>Logs</div>
           ) : (
-            <>
-              {question.testcases?.map((_: any, index: number) => {
-                return (
-                  <p
-                    key={index}
-                    onClick={() => {
-                      setCaseNumber(index);
-                    }}
-                    className={`${
-                      testcasesSolved[index] === 1
-                        ? "bg-green-800"
-                        : testcasesSolved[index] === -1
-                          ? "bg-red-800"
-                          : ""
-                    } p-2`}
-                  >
-                    Case {index + 1}
+            <div className="flex h-fit gap-4 p-2">
+              {question.testcases ? (
+                <div className="flex flex-col">
+                  <p className="font-medium">Input</p>
+                  <p className="mt-0.5 rounded-md bg-dark-1 p-2 font-mono">
+                    {question.testcases[caseNumber].input.replace(/`/g, "")}
                   </p>
-                );
-              })}
-            </>
+
+                  <p className="mt-2 font-medium">Output</p>
+                  <p className="mt-0.5 w-fit rounded-md bg-dark-1 p-2 font-mono">
+                    {question.testcases[caseNumber].output}
+                  </p>
+                </div>
+              ) : (
+                <p>Loading...</p>
+              )}
+            </div>
           )}
         </div>
       </div>

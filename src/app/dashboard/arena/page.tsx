@@ -23,6 +23,11 @@ function LoadingSkeleton() {
   );
 }
 
+export type Delta = {
+  player1Delta: number;
+  player2Delta: number;
+};
+
 export default function Arena() {
   const socketRef = React.useRef<Socket | null>(null);
   const [_, setRunning] = useCodeRunning();
@@ -32,6 +37,10 @@ export default function Arena() {
   const [opponent, setOpponent] = useOpponent();
   const router = useRouter();
   const [isLoading, setIsLoading] = React.useState(true);
+  const [delta, setDelta] = React.useState<Delta>({
+    player1Delta: 35,
+    player2Delta: 35,
+  });
 
   const needToReconnect = useSearchParams().get(
     "reconnect"
@@ -58,6 +67,7 @@ export default function Arena() {
       router.push("/dashboard");
     });
 
+    //TODO Send the entire room instead of just question
     socket.on("question", (data) => {
       setQuestion(data);
     });
@@ -66,6 +76,9 @@ export default function Arena() {
       socket.emit("reconnect", user.id);
       socket.on("re-connected", (data) => {
         const room = data;
+        //!Debugging
+        console.log(room.question);
+        //!
         setQuestion(room.question);
         setStartTime(room.startTime);
         if (user.id == room.player1.userId) {
@@ -112,6 +125,7 @@ export default function Arena() {
         player2Rating={opponent.rating}
         socket={socketRef.current}
         startTime={startTime}
+        delta={delta}
       />
       <div className="flex gap-2">
         <ArenaQuestion />

@@ -1,3 +1,5 @@
+import Markdown from "react-markdown";
+
 export default function Example({
   example_number,
   input,
@@ -23,7 +25,21 @@ export default function Example({
         </div>
         <div>
           <p className="mt-2 flex gap-4">Explanation </p>
-          <p className="text-sm font-semibold">{explaination}</p>
+          <p className="text-sm font-semibold">
+            <Markdown
+              components={{
+                code(props) {
+                  return (
+                    <code className="rounded-md bg-dark-1 px-1 py-1">
+                      {props.children}
+                    </code>
+                  );
+                },
+              }}
+            >
+              {explaination}
+            </Markdown>
+          </p>
         </div>
       </div>
     </div>

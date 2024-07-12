@@ -15,6 +15,8 @@ const dataTypeMap: { [key: string]: { [key: string]: string } } = {
     int: "number",
     float: "number",
     double: "number",
+    "List[int]": "number[]",
+    "List[str]": "string[]",
   },
   "c++": {
     str: "std::string",
@@ -22,6 +24,8 @@ const dataTypeMap: { [key: string]: { [key: string]: string } } = {
     int: "int",
     float: "float",
     double: "double",
+    "List[int]": "std::vector<int>",
+    "List[str]": "std::vector<std::string>",
   },
   python: {
     str: "str",
@@ -29,6 +33,8 @@ const dataTypeMap: { [key: string]: { [key: string]: string } } = {
     int: "int",
     float: "float",
     double: "float",
+    "List[int]": "List[int]",
+    "List[str]": "List[str]",
   },
   java: {
     str: "String",
@@ -36,6 +42,8 @@ const dataTypeMap: { [key: string]: { [key: string]: string } } = {
     int: "int",
     float: "float",
     double: "double",
+    "List[int]": "List<Integer>",
+    "List[str]": "List<String>",
   },
 };
 
@@ -49,7 +57,7 @@ export default function generateFunctionDefinition(
     return "Unsupported language. Please choose JavaScript, C++, Python, or Java.";
   }
 
-  const mapType = (type: string) => langTypeMap[type.toLowerCase()] || type;
+  const mapType = (type: string) => langTypeMap[type] || type;
 
   switch (language.toLowerCase()) {
     case "javascript":
@@ -81,8 +89,8 @@ export default function generateFunctionDefinition(
         })
         .join(", ");
       return `def ${signature.name}(${pyArgList}) -> ${mapType(signature.return_type)}:
-  # Implementation here
-  `;
+    # Implementation here
+    pass`;
 
     case "java":
       const javaArgList = signature.arguments
@@ -92,8 +100,8 @@ export default function generateFunctionDefinition(
         })
         .join(", ");
       return `public ${mapType(signature.return_type)} ${signature.name}(${javaArgList}) {
-  // Implementation here
-  
+    // Implementation here
+    
 }`;
 
     default:
