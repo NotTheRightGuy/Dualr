@@ -9,6 +9,7 @@ import Link from "next/link";
 import { LoaderCircle } from "lucide-react";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { BACKEND_URL } from "@/config";
 
 export default function SignUp() {
   const [loading, setLoading] = React.useState(false);
@@ -23,7 +24,7 @@ export default function SignUp() {
     const username = userNameRef.current?.value;
     const email = emailRef.current?.value;
     const password = passwordRef.current?.value;
-    const res = await fetch("http://localhost:8080/api/auth/signup", {
+    const res = await fetch(`${BACKEND_URL}/auth/signup`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

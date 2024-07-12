@@ -9,10 +9,10 @@ import {
   PlayCircleIcon,
   Loader,
   LoaderCircle,
-  Search,
   Ban,
   CheckIcon,
 } from "lucide-react";
+import { SOCKET_URL } from "@/config";
 
 import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
@@ -22,7 +22,7 @@ import { useRouter } from "next/navigation";
 
 export default function Dashboard() {
   const [user, _] = useUser();
-  const [opponent, setOpponent] = useOpponent();
+  const [__, setOpponent] = useOpponent();
   let [socket, setSocket] = React.useState<Socket | null>(null);
   const [matchFinding, setMatchFinding] = React.useState<boolean>(false);
   const [matchFound, setMatchFound] = React.useState<boolean>(false);
@@ -71,7 +71,7 @@ export default function Dashboard() {
     setMatchFinding(true);
 
     if (!socket) {
-      const so = io("http://localhost:8080");
+      const so = io(SOCKET_URL);
       setSocket(so);
       so.emit("find", user);
     }

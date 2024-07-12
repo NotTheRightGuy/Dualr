@@ -7,10 +7,21 @@ import {
   IconBrandGithubFilled,
 } from "@tabler/icons-react";
 import { signIn } from "next-auth/react";
-
 import { toast } from "sonner";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import { BACKEND_URL } from "@/config";
 
 export default function SignUp() {
+  const { status } = useSession();
+  const router = useRouter();
+
+  React.useEffect(() => {
+    if (status === "authenticated") {
+      router.push("/dashboard");
+    }
+  }, []);
+
   const emailRef = React.useRef<HTMLInputElement>(null);
   const passwordRef = React.useRef<HTMLInputElement>(null);
 
@@ -19,7 +30,7 @@ export default function SignUp() {
     const password = passwordRef.current?.value;
 
     if (email && password) {
-      const res = await fetch("http://localhost:8080/api/auth/login", {
+      const res = await fetch(`${BACKEND_URL}/auth/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

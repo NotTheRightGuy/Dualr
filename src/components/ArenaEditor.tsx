@@ -72,6 +72,23 @@ export default function ArenaEditor({ socket }: { socket: Socket | null }) {
       <div className="flex h-10 justify-between rounded-t-md border-[1px] border-b-0 border-light-4 bg-dark-2 p-2">
         <p className="font-semibold">Code</p>
         <div className="flex">
+          <div className="dark">
+            <Select
+              onValueChange={(e) => {
+                setLanguage(e);
+              }}
+            >
+              <SelectTrigger className="font-space h-6 border-0 bg-transparent font-medium outline-0 focus:ring-0">
+                <SelectValue placeholder="Javascript" />
+              </SelectTrigger>
+              <SelectContent className="font-space">
+                <SelectItem value="javascript">Javascript</SelectItem>
+                <SelectItem value="java">Java</SelectItem>
+                <SelectItem value="c++">C++</SelectItem>
+                <SelectItem value="python">Python</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger>
@@ -82,24 +99,6 @@ export default function ArenaEditor({ socket }: { socket: Socket | null }) {
               </TooltipContent>
             </Tooltip>
           </TooltipProvider>
-
-          <div className="dark">
-            <Select
-              onValueChange={(e) => {
-                setLanguage(e);
-              }}
-            >
-              <SelectTrigger className="h-6 border-0 bg-transparent outline-0 focus:ring-0">
-                <SelectValue placeholder="Javascript" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="javascript">Javascript</SelectItem>
-                <SelectItem value="java">Java</SelectItem>
-                <SelectItem value="c++">C++</SelectItem>
-                <SelectItem value="python">Python</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
         </div>
       </div>
       <AceEditor
@@ -137,7 +136,7 @@ export default function ArenaEditor({ socket }: { socket: Socket | null }) {
               setShowResult(true);
             }}
           >
-            Test Result
+            Test Logs
           </div>
         </div>
         <div className="flex flex-1">
@@ -163,32 +162,7 @@ export default function ArenaEditor({ socket }: { socket: Socket | null }) {
             })}
             <p className="invisible">Test Cases</p>
           </div>
-          {!showResult ? (
-            <div className="flex flex-1 flex-col gap-2 p-4">
-              {question.testcases ? (
-                <>
-                  <p className="rounded-md bg-dark-1 p-2 font-mono">
-                    {question.testcases[caseNumber].input.replace(/`/g, "")}
-                  </p>
-                  <p className="rounded-md bg-dark-1 p-2 font-mono">
-                    {question.testcases[caseNumber].output}
-                  </p>
-                </>
-              ) : (
-                <p>Loading...</p>
-              )}
-            </div>
-          ) : (
-            <div className="p-4">
-              {testcasesSolved[caseNumber] === 1 ? (
-                <p className="text-green-800">Test Case Passed.</p>
-              ) : testcasesSolved[caseNumber] === -1 ? (
-                <p className="text-red-800">Test Case Failed</p>
-              ) : (
-                <p>Run the code to see the result of the test case</p>
-              )}
-            </div>
-          )}
+          {showResult && <div>Logs</div>}
         </div>
       </div>
     </main>

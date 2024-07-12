@@ -2,8 +2,10 @@ import HeroNavbar from "@/components/HeroNavbar";
 import HeroBg from "@/components/HeroBg";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { auth } from "@/auth";
 
-export default function Page() {
+export default async function Page() {
+  const session = await auth();
   return (
     <div className="px-28">
       <HeroNavbar />
@@ -29,11 +31,24 @@ export default function Page() {
                 Get Started
               </Button>
             </Link>
-            <Link href="/auth/signin">
-              <Button className="rounded-full border-2 transition-opacity hover:opacity-75">
-                Login
-              </Button>
-            </Link>
+
+            {session?.user ? (
+              <>
+                <Link href="/dashboard">
+                  <Button className="rounded-full border-2 transition-opacity hover:opacity-75">
+                    Dashboard
+                  </Button>
+                </Link>
+              </>
+            ) : (
+              <>
+                <Link href="/auth/signin">
+                  <Button className="rounded-full border-2 transition-opacity hover:opacity-75">
+                    Login
+                  </Button>
+                </Link>
+              </>
+            )}
           </div>
         </section>{" "}
       </HeroBg>

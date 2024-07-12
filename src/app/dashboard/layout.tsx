@@ -5,6 +5,7 @@ import { useUser } from "@/store/hooks/useUser";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import { BACKEND_URL } from "@/config";
 
 export default function layout({ children }: { children: React.ReactNode }) {
   const session = useSession();
@@ -17,7 +18,7 @@ export default function layout({ children }: { children: React.ReactNode }) {
       if (!Object.keys(user).length) {
         console.log("User Data not found");
         console.log("Fethching User Data");
-        fetch(`http://localhost:8080/api/me?email=${data.user?.email}`)
+        fetch(`${BACKEND_URL}/me?email=${data.user?.email}`)
           .then((res) => res.json())
           .then((data) => {
             setUser(data);

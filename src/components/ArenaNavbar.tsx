@@ -17,6 +17,8 @@ import { useQuestion } from "@/store/hooks/useQuestion";
 import generateAssertionCode from "@/utils/generateAssertionCode";
 import { useUser } from "@/store/hooks/useUser";
 import { Socket } from "socket.io-client";
+import Modal from "./ui/Modal";
+import SubmitButton from "./ui/SubmitButton";
 
 export default function ArenaNavBar({
   player1,
@@ -75,7 +77,7 @@ export default function ArenaNavBar({
           </div>
         </div>
       </section>
-      <section className="flex items-center">
+      <section className="flex items-center rounded-md border-2 border-light-4">
         <Button className="rounded-none rounded-l-md border-r-[1px] border-light-4 bg-dark-2 hover:bg-dark-1">
           <Timer />
         </Button>
@@ -95,10 +97,7 @@ export default function ArenaNavBar({
             </>
           )}
         </Button>
-        <Button className="rounded-none rounded-r-md bg-dark-2 hover:bg-dark-1">
-          <Cloudy className="mr-2" />
-          Submit
-        </Button>
+        <SubmitButton />
       </section>
       <section className="flex items-center gap-8">
         <div className="flex">
@@ -107,17 +106,8 @@ export default function ArenaNavBar({
           <CircleChevronDown className="ml-4 text-caption-2 text-accent-red" />
           <p className="ml-1 font-semibold opacity-70">-35</p>
         </div>
-        <Button
-          variant="destructive"
-          onClick={() => {
-            if (socket) {
-              console.log("Request to terminate dual received");
-              socket.emit("end-dual", user.id);
-            }
-          }}
-        >
-          End Dual
-        </Button>
+
+        <Modal socket={socket}></Modal>
       </section>
     </nav>
   );

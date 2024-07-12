@@ -1,7 +1,9 @@
 import { Button } from "./ui/button";
 import Link from "next/link";
+import { auth } from "@/auth";
 
-export default function HeroNavbar() {
+export default async function HeroNavbar() {
+  const session = await auth();
   return (
     <div className="flex justify-between py-4">
       <p className="text-headline-5 font-semibold">Dualr</p>
@@ -11,11 +13,23 @@ export default function HeroNavbar() {
         <p>Blog</p>
         <p>Event</p>
         <p>Pricing</p>
-        <Link href="/auth/signup">
-          <Button className="rounded-full bg-brand-1 hover:bg-blue-500">
-            Sign Up
-          </Button>
-        </Link>
+        {session?.user ? (
+          <>
+            <Link href="/dashboard">
+              <Button className="rounded-full bg-brand-1 hover:bg-blue-500">
+                Dashboard
+              </Button>
+            </Link>
+          </>
+        ) : (
+          <>
+            <Link href="/auth/signup">
+              <Button className="rounded-full bg-brand-1 hover:bg-blue-500">
+                Sign Up
+              </Button>
+            </Link>
+          </>
+        )}
       </div>
     </div>
   );
