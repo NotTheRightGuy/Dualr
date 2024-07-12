@@ -79,7 +79,6 @@ export default function Dashboard() {
 
   if (socket) {
     socket.on("found", (data) => {
-      console.log(data);
       setOpponent(data);
       setMatchFound(true);
       socket.close();

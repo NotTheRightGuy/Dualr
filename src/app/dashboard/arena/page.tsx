@@ -76,9 +76,6 @@ export default function Arena() {
       socket.emit("reconnect", user.id);
       socket.on("re-connected", (data) => {
         const room = data;
-        //!Debugging
-        console.log(room.question);
-        //!
         setQuestion(room.question);
         setStartTime(room.startTime);
         if (user.id == room.player1.userId) {

@@ -35,9 +35,9 @@ export default function ArenaQuestion() {
           <Example
             key={index}
             example_number={index + 1}
-            input={example.input.slice(1, -1)}
-            output={example.output.slice(1, -1)}
-            explaination={example.explanation}
+            input={example.input}
+            output={example.output}
+            explanation={example.explanation}
           />
         ))}
       </div>

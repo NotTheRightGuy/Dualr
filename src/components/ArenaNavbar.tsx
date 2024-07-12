@@ -64,7 +64,6 @@ export default function ArenaNavBar({
         languageDict[language as keyof typeof languageDict],
         allSubmission
       );
-      console.log(res);
     }
   }
 

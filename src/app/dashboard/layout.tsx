@@ -16,8 +16,6 @@ export default function layout({ children }: { children: React.ReactNode }) {
   React.useEffect(() => {
     if (status === "authenticated") {
       if (!Object.keys(user).length) {
-        console.log("User Data not found");
-        console.log("Fethching User Data");
         fetch(`${BACKEND_URL}/me?email=${data.user?.email}`)
           .then((res) => res.json())
           .then((data) => {
@@ -29,7 +27,7 @@ export default function layout({ children }: { children: React.ReactNode }) {
           })
           .catch((err) => {
             console.error("There was an issue fetching user data");
-            console.log(err);
+            console.error(err);
           });
       }
     }
