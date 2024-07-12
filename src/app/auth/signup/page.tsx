@@ -49,15 +49,18 @@ export default function SignUp() {
         <p className="text-headline-4 font-bold">Let's get you started</p>
         <div className="flex gap-2">
           <p className="opacity-50">Already have an account?</p>
-          <Link href="" className="text-brand-1 opacity-100 hover:underline">
+          <Link
+            href="/auth/signin"
+            className="text-brand-1 opacity-100 hover:underline"
+          >
             Login instead
           </Link>{" "}
         </div>
         <div className="mt-6 flex gap-2 *:flex-1 *:bg-dark-2 *:font-semibold hover:*:bg-dark-1">
-          <Button>
+          <Button disabled>
             <IconBrandGoogleFilled size={20} />
           </Button>
-          <Button>
+          <Button disabled>
             <IconBrandGithub size={20} />
           </Button>
         </div>

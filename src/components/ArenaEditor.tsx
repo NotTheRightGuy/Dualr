@@ -32,7 +32,7 @@ export default function ArenaEditor({ socket }: { socket: Socket | null }) {
   const [code, setCode] = useCode();
   const [_, setRunning] = useCodeRunning();
   const [question, __] = useQuestion();
-  const [showResult, setShowResult] = React.useState<boolean>(false);
+  const [showLogs, setShowLogs] = React.useState<boolean>(false);
   const [functionPlaceholder, setFunctionPlaceholder] =
     React.useState<string>("");
   const [caseNumber, setCaseNumber] = React.useState<number>(0);
@@ -78,7 +78,7 @@ export default function ArenaEditor({ socket }: { socket: Socket | null }) {
                 setLanguage(e);
               }}
             >
-              <SelectTrigger className="font-space h-6 border-0 bg-transparent font-medium outline-0 focus:ring-0">
+              <SelectTrigger className="h-6 border-0 bg-transparent font-space font-medium outline-0 focus:ring-0">
                 <SelectValue placeholder="Javascript" />
               </SelectTrigger>
               <SelectContent className="font-space">
@@ -109,7 +109,7 @@ export default function ArenaEditor({ socket }: { socket: Socket | null }) {
         onChange={(newCode) => setCode(newCode)}
         value={code ? code : functionPlaceholder}
         placeholder={functionPlaceholder}
-        className="font-space rounded-none border-[1px] border-b-0 border-light-4 bg-dark-2"
+        className="rounded-none border-[1px] border-b-0 border-light-4 bg-dark-2 font-space"
         fontSize={14}
         setOptions={{
           enableBasicAutocompletion: true,
@@ -123,20 +123,20 @@ export default function ArenaEditor({ socket }: { socket: Socket | null }) {
       <div className="flex h-[30vh] flex-col rounded-b-md border-[1px] border-light-4 bg-dark-2">
         <div className="flex border-b-[1px] border-light-4 *:cursor-pointer *:border-x-[1px] *:border-light-4 *:p-2 *:transition-colors hover:*:bg-dark-1">
           <div
-            className={showResult ? "" : "bg-dark-1"}
+            className={showLogs ? "" : "bg-dark-1"}
             onClick={() => {
-              setShowResult(false);
+              setShowLogs(false);
             }}
           >
             Test Cases
           </div>
           <div
-            className={showResult ? "bg-dark-1" : ""}
+            className={showLogs ? "bg-dark-1" : ""}
             onClick={() => {
-              setShowResult(true);
+              setShowLogs(true);
             }}
           >
-            Test Logs
+            Dual Logs
           </div>
         </div>
         <div className="flex flex-1">
@@ -162,7 +162,31 @@ export default function ArenaEditor({ socket }: { socket: Socket | null }) {
             })}
             <p className="invisible">Test Cases</p>
           </div>
-          {showResult && <div>Logs</div>}
+          {showLogs ? (
+            <div>Logs</div>
+          ) : (
+            <>
+              {question.testcases?.map((_: any, index: number) => {
+                return (
+                  <p
+                    key={index}
+                    onClick={() => {
+                      setCaseNumber(index);
+                    }}
+                    className={`${
+                      testcasesSolved[index] === 1
+                        ? "bg-green-800"
+                        : testcasesSolved[index] === -1
+                          ? "bg-red-800"
+                          : ""
+                    } p-2`}
+                  >
+                    Case {index + 1}
+                  </p>
+                );
+              })}
+            </>
+          )}
         </div>
       </div>
     </main>

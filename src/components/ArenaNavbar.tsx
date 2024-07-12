@@ -26,11 +26,13 @@ export default function ArenaNavBar({
   player1Rating,
   player2Rating,
   socket,
+  startTime,
 }: {
   player1: string;
   player2: string;
   player1Rating: number;
   player2Rating: number;
+  startTime: number;
   socket: Socket | null;
 }) {
   const [code, _] = useCode();
@@ -79,7 +81,7 @@ export default function ArenaNavBar({
       </section>
       <section className="flex items-center rounded-md border-2 border-light-4">
         <Button className="rounded-none rounded-l-md border-r-[1px] border-light-4 bg-dark-2 hover:bg-dark-1">
-          <Timer />
+          <Timer startTime={startTime} />
         </Button>
         <Button
           className="rounded-none border-r-[1px] border-light-4 bg-dark-2 hover:bg-dark-1"

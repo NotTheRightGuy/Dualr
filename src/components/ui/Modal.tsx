@@ -14,7 +14,7 @@ const Modal = ({ socket }: { socket: Socket | null }) => {
         onClick={() => setIsOpen(true)}
         className="rounded bg-red-600 px-4 py-2 font-medium text-white transition-opacity hover:opacity-90"
       >
-        Open Modal
+        End Dual
       </button>
       <SpringModal isOpen={isOpen} setIsOpen={setIsOpen} socket={socket} />
     </div>

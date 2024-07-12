@@ -1,28 +1,28 @@
 import React from "react";
 import { Timer as Clock } from "lucide-react";
 
-export function Timer() {
+export function Timer({ startTime }: { startTime?: number }) {
   const [time, setTime] = React.useState("00:00");
 
   React.useEffect(() => {
-    const interval = setInterval(() => {
-      setTime((prev) => {
-        const [minutes, seconds] = prev.split(":");
-        let newMinutes = parseInt(minutes);
-        let newSeconds = parseInt(seconds) + 1;
+    const initialTime = startTime ? new Date(startTime) : new Date();
 
-        if (newSeconds === 60) {
-          newMinutes += 1;
-          newSeconds = 0;
-        }
+    const updateTime = () => {
+      const now = new Date();
+      const diff = now.getTime() - initialTime.getTime();
+      const minutes = Math.floor(diff / 60000);
+      const seconds = Math.floor((diff % 60000) / 1000);
 
-        return `${newMinutes.toString().padStart(2, "0")}:${newSeconds
-          .toString()
-          .padStart(2, "0")}`;
-      });
-    }, 1000);
+      setTime(
+        `${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`
+      );
+    };
+
+    updateTime(); // Initial update
+    const interval = setInterval(updateTime, 1000);
+
     return () => clearInterval(interval);
-  }, []);
+  }, [startTime]);
 
   return (
     <div className="flex items-center gap-2">
